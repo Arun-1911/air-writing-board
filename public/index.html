@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Air-Writing Board — Hand-Tracked Virtual Whiteboard</title>
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+    <div class="stage" id="stage">
+        <video id="webcam" autoplay playsinline muted></video>
+        <canvas id="drawCanvas"></canvas>
+        <canvas id="debugCanvas"></canvas>
+
+        <div class="vignette" aria-hidden="true"></div>
+        <span class="hud-corner tl" aria-hidden="true"></span>
+        <span class="hud-corner tr" aria-hidden="true"></span>
+        <span class="hud-corner bl" aria-hidden="true"></span>
+        <span class="hud-corner br" aria-hidden="true"></span>
+
+        <div id="loadingStatus" class="loading-status">
+            <div class="spinner" aria-hidden="true"></div>
+            <span id="loadingText">Loading hand-tracking model&hellip;</span>
+        </div>
+
+        <header class="brand">
+            <span class="brand-dot"></span>
+            <span>Air-Writing Board</span>
+        </header>
+
+        <aside id="statusPanel" class="status-panel" aria-live="polite">
+            <div class="status-row">
+                <span class="status-label">CAMERA</span>
+                <span id="statCamera" class="status-value pending"><i class="status-dot"></i><span class="status-text">INIT</span></span>
+            </div>
+            <div class="status-row">
+                <span class="status-label">HAND</span>
+                <span id="statHand" class="status-value pending"><i class="status-dot"></i><span class="status-text">SEARCHING</span></span>
+            </div>
+            <div class="status-row">
+                <span class="status-label">MODE</span>
+                <span id="statMode" class="status-value">AIR PEN</span>
+            </div>
+            <div class="status-row">
+                <span class="status-label">PEN</span>
+                <span id="statPen" class="status-value pending"><i class="status-dot"></i><span class="status-text">READY</span></span>
+            </div>
+        </aside>
+
+        <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+        <div id="instructions" class="instructions">
+            <p id="instructionText">Raise your hand to begin</p>
+        </div>
+
+        <div id="cameraError" class="camera-error" hidden>
+            <p id="cameraErrorText"></p>
+            <button id="retryCameraBtn" type="button">Retry Camera</button>
+        </div>
+
+        <button id="startBtn" class="start-btn" type="button" disabled>Loading…</button>
+
+        <footer class="toolbar" id="toolbar" hidden>
+            <div class="tool-group">
+                <button id="undoBtn" class="tool-btn" type="button" title="Undo last stroke">↶ Undo</button>
+                <button id="redoBtn" class="tool-btn" type="button" title="Redo stroke">↷ Redo</button>
+                <button id="clearBtn" class="tool-btn" type="button" title="Clear board">Clear</button>
+            </div>
+
+            <div class="tool-group">
+                <button id="penToolBtn" class="tool-btn active" type="button" title="Pen tool">✎ Pen</button>
+                <button id="eraserToolBtn" class="tool-btn" type="button" title="Eraser tool">⌫ Eraser</button>
+            </div>
+
+            <div class="tool-group" id="colorGroup" role="group" aria-label="Pen color"></div>
+
+            <div class="tool-group" id="sizeGroup" role="group" aria-label="Brush size">
+                <button class="size-btn" data-size="small" type="button" title="Small brush"><span class="dot dot-s"></span></button>
+                <button class="size-btn active" data-size="medium" type="button" title="Medium brush"><span class="dot dot-m"></span></button>
+                <button class="size-btn" data-size="large" type="button" title="Large brush"><span class="dot dot-l"></span></button>
+            </div>
+
+            <div class="tool-group">
+                <label class="toggle-chip">
+                    <span class="switch"><input type="checkbox" id="toggleVideo" checked /><span class="switch-track"></span></span>
+                    Camera
+                </label>
+                <label class="toggle-chip">
+                    <span class="switch"><input type="checkbox" id="toggleDebug" /><span class="switch-track"></span></span>
+                    Debug
+                </label>
+            </div>
+
+            <div class="tool-group">
+                <button id="saveBtn" class="tool-btn primary" type="button" title="Export as PNG">⤓ Save</button>
+            </div>
+        </footer>
+    </div>
+
+    <script type="module" src="/js/main.js"></script>
+</body>
+</html>

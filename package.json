@@ -1,0 +1,10 @@
+{
+    "name": "motion-mirror",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Real-time browser air-writing board: pinch-to-draw on a virtual whiteboard over your webcam feed using MediaPipe hand landmark tracking.",
+    "scripts": {
+        "start": "node backend/server.js"
+    },
+    "license": "MIT"
+}
